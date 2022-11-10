@@ -1,0 +1,34 @@
+//Use this apps script to change event visibility based on color.
+//This is useful for the UseMotion App which makes all calendar events private by default, thus difficult to share with people who don't have Motion, etc.
+
+function makeEventsVisible() {
+
+  var today = new Date();
+  var nextweek = new Date();
+  nextweek.setDate(nextweek.getDate() + 7);
+  Logger.log(today + " " + nextweek);
+
+  var calendars = CalendarApp.getAllOwnedCalendars()
+
+  Logger.log("found number of calendars: " + calendars.length);
+
+  for (var i=0; i<calendars.length; i++) {
+    var calendar = calendars[i];
+    var events = calendar.getEvents(today, nextweek);
+    for (var j=0; j<events.length; j++) {
+      var e = events[j];
+      var colour = e.getColor();
+      //var title = e.getTitle();
+      //var visible = e.getVisibility();
+     // Logger.log(title)
+     // Logger.log(colour)
+     // Logger.log(visible)
+
+      if (colour == 8){
+        e.setVisibility(CalendarApp.Visibility.DEFAULT);
+        var newvisible = e.getVisibility();
+        Logger.log(newvisible)
+      }
+    }
+  }
+}
